@@ -45,3 +45,74 @@ ISBN: 9781098114671
 
 
 ## Chapter 2. Principles of Cloud Age Infrastructure
+
+- Una forma de hacer que un sistema sea recuperable es asegurarse de que pueda reconstruir sus partes sin esfuerzo y de manera confiable.
+- La reproducibilidad no sólo facilita la recuperación de un sistema fallido, sino que también le ayuda a:
+  - Haga que los entornos de prueba sea consistentes con la producción.
+  - Replicar sistemas en todas las regiones para disponibilidad.
+  - Agregar instancias bajo demanda para hacer frente a la alta carga.
+  - Replicar sistemas para dar a cada cliente una instancia dedicada.
+
+
+
+- Paligros: sistemas de copos de nieve.
+
+  - Un copo de nieve es una instancia de un sistema o parte de un sistema que es difícil de reconstruir.
+
+- Principle: Assume systems are unreliable.
+
+- Principle: Make everything reproducible. Debemos aplicar cualquier cambio que realicemos en todas las instancias del componente. De lo contrario crearemos una deriva en la cnfiguración.
+
+- La deriva de configuración es una variación que ocurre con el tiempo en los sistemas que alguna vez fueron idénticos. La deriva de la configuración hace que sea más difícil mantener una automatización constante.
+
+- The automation fear spiral. La espiral del miedo a la automatización describe cuántos equipos caen en la deriva de la configuración y la deuda técnica.
+
+- La espiral del miedo de la automatización.
+
+  ![image-20200401224551321](C:\Users\vthot4\AppData\Roaming\Typora\typora-user-images\image-20200401224551321.png)
+
+- Principle: Ensure that you can repeat any process.
+
+- Effective infrastructure teams have a strong scripting culture. If you can script a task, script it4. If it’s hard to script it, dig deeper. Maybe there’s a technique or tool that can help, or maybe you can simplify the task or handle it differently. Breaking work down into scriptable tasks usually makes it simpler, cleaner, and more reliable.
+
+
+
+## Chapter 3. Infrastructure Platforms.
+
+- La infraestructura como código requiere una plataforma de infraestructura dinámica, algo que puede usar para aprovisionar y cambiar recursos bajo demanda con una API.
+- Las características clave de una plataforma de infraestructura dinámica son:
+  - Proporcionar un conjunto de recursos informáticos, de redes y de almacenamiento.
+  - Le permite aprovisionar y cambiar estos recursos bajo demanda.
+  - Podemos aprovisionar, configurar y cambiar recursos mediante programación.
+- Una malla de servicios es una red descentralizada de servicios que gestiona dinámicamente la conectividad entre partes de un sistema distribuido.
+- Algunos ejemplos de mallas de servicio incluyen Hashicorp Consul , Envoy , Istio y Linkerd.
+
+
+
+## Chapter 4. Core Practice : Define everything as code.
+
+- Los beneficios de definir todo como código son:
+  - Reusabiidad. 
+  - Consistencia.
+  - Transparencia.
+- Las herramientas orientadas a la pila como Terraform y CloudFormation llegaron unos años más tarde, siguiendo el mismo modelo declarativo DSL.
+- Recientemente 5 , existe una tendencia de nuevas herramientas de infraestructura que utilizan los lenguajes de programación de propósito general existentes para definir la infraestructura. Pulumi y AWS CDK (Cloud Development Kit) son ejemplos que admiten lenguajes como Typecript, Python y Java.
+- Terraform, como la mayoría de las otras herramientas de aprovisionamiento de pila y herramientas de configuración del servidor, utiliza un lenguaje declarativo. En lugar de un lenguaje de procedimientos, que ejecuta una serie de instrucciones que utilizan la lógica de flujo de control, como si las declaraciones y mientras bucles, un lenguaje declarativo es un conjunto de sentencias que declaran el resultado que desea.
+- IDEMPOTENCIA. Para sincronizar continuamente las definiciones del sistema, la herramienta que use para esto debe ser idempotente. No importa cuántas veces lo ejecutes, el resultado es el mismo. Si ejecuta una herramienta que no es idempotente varias veces, podría causar problemas.
+- Leer ---> https://martinfowler.com/books/dsl.html
+- Argumentos para volver a lenguajes de uso general:
+  - La configuración no es código real. 
+  - No necesitas aprender un nuevo lenguaje de desarrollo.
+  - Los DSL no suelen tener entornos de desarrollo completos.
+  - La posibilidad de usar bibliotecas.
+  - Usar un lenguaje de programación común, permite combinar infraestructura y código de aplicación.
+  - El testing en DSL suele ser más complejo.
+- Principios de implementación del IaC:
+  - Implementation Principle: Avoid mixing different types of code.
+  - Implementation Principle: Separate infrastructure code concerns.
+    - Especificación. Define la forma de la infraestructura.
+    - Configuración. Define las cosas que varian cuando se aprovisionan diferentes instancias de infraestructura.
+    -  Ejecución. Aplica la especificación y la configuración a los recursos de infraestructura.
+    -  Orquestación. Combina múltiples especificaciones y configuraciones.
+  - Separating specification and configuration. 
+  - Implementation Principle: Treat infrastructure code like real code.
