@@ -13,3 +13,6 @@ Registro de actividad durante la cuarentena por el COVID-19
 - (16 Días) [Martes 31/03/2020](./Days/10.Martes_31_03_2020.md)
 - (17 Días) [Miércoles 01/04/2020](./Days/11.Miercoles_01_04_2020.md)
 - (18 Días) [Jueves 02/04/2020](./Days/12.Jueves_02_04_2020.md)
+- (19 Días) [Viernes 03/04/2020](./Days/13.Viernes_03_04_2020.md)
+- (20 Días) [Sabado 04/04/2020](./Days/14.Sabado_04_04_2020.md)
+- (21 Días) [Domingo 05/04/2020](./Days/15.Domingo_05_04_2020.md)

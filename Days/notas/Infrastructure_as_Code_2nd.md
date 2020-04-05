@@ -121,4 +121,68 @@ ISBN: 9781098114671
 
 ## Chapter 5. Building Infrastructure Stacks as Code.
 
--  
+-  **stack code** An Infrastructure Stack is a collection of infrastructure resources that you define, provision, and update as a unit.You write source code to define the elements of a stack, which are resources and services that your infrastructure platform provides.
+- Each stack is defined by source code that declares what infrastructure elements it should include.
+- **stack instance.** You can use a single stack project to provision more than one stack instance. When you run the stack tool for the project, it uses the platform API to ensure the stack instance exists, and to make it match the project code.
+- **Configuring servers in a stack.** You should decouple code that builds servers from code that builds stacks. Doing this makes the code easier to understand, simplifies changes by decoupling them, and supports reusing and testing server code.
+
+**Patterns and antipatterns for structuring stacks**
+
+The description of each pattern and antipattern follows a set format, with each of these fields:
+
+- **Name.** The name of the pattern or antipattern.
+- **Also Known As.** Other names you may have heard used to describe this.
+- **Motivation.** Why people may decide to implement this pattern or antipattern.
+- **Applicability.** When this pattern is a good idea, and when it’s not.
+- **Consequences.** What you should think about if you choose to implement this pattern. What happens if you implement this antipattern.
+- **Implementation.** How to implement the pattern.
+- **Related patterns.** Other patterns and antipatterns, particularly alternatives.
+
+- Note: The term blast radius describes the potential damage a given change could make to a system. It’s usually based on the elements of the system you’re changing, what other elements depend on them, and what elements are shared.
+
+
+
+**Antipattern: Monolithic Stack**
+
+- A Monolithic Stack is an infrastructure stack that includes too many elements, making it difficult to maintain.
+- Also known as: Spaghetti stack, big ball of mud.
+- Motivation: People build monolithic stacks because the simplest way to add element to a system is to add it to the existing project. A single stack is simpler to manage
+- Applicability: A monolithic stack may be appropriate when your system is small and simple. It's not appropriate when your system grows, taking longer to provision and update.
+- Consequences: Changing a large stack is riskier than changing a smaller stack. More things can go wrong-it has a larger blast radius. the impact of a failed change may be broader since there are more services and applications within the stack. 
+- Implementation: You build a monolithic stack by creating an infrastructure stack project and then continuously adding code, rather than splitting it into multiple stacks.
+
+
+
+**Pattern: Application Group Stack**
+
+- An Application Group Stack includes the infrastructure for multiple related applications or services. The infrastructure for all of these applications is provisioned and modified as a group.
+- Also Known As: Combined stack, service group stack, multi-application stack.
+- Motivation: Defining the infrastructure for multiple related services together can make it easier to manage the application as a single unit.
+- Applicability: This pattern can work well when a single team owns the infrastructure and deployment of all of the pieces of the application. An application group stack can align the boundaries of the stack to the team’s responsibilities.
+- Consequences: Grouping the infrastructure for multiple applications together also combines the time, risk, and pace of changes. The team needs to manage the risk to the entire stack for every change, even if only one part is changing. This pattern is inefficient if some parts of the stack change more frequently than others. The time to provision, change, and test a stack is based on the entire stack. So again, if it’s common to change only one part of a stack at a time, having it grouped adds unnecessary overhead and risk.
+- Implementation: To create an application group stack, you define an infrastructure project that builds all of the infrastructure for a set of services. You can provision and destroy all of the pieces of the application with a single command.
+
+
+
+**Pattern: Service Stack**
+
+- A Service Stack manages the infrastructure for each deployable application component in a separate infrastructure stack.
+- Also Known As: Stack per app, single service stack
+- Motivation: Service stacks align the boundaries of infrastructure to the software that runs on it. This alignment limits the blast radius for a change to one service, which simplifies the process for scheduling changes. Service teams can own the infrastructure that relates to their software. 
+- Applicability: Service stacks can work well with microservice application architectures. They also help organizations with autonomous teams to ensure each team owns its infrastructure.
+- Consequences: If you have multiple applications, each with an infrastructure stack, there could be an unnecessary duplication of code. 
+- Implementation: Each application or service has a separate infrastructure code project. When creating a new application, a team might copy code from another application’s infrastructure. Or the team could use a reference project, with boilerplate code for creating new stacks. 
+
+
+
+**Pattern: Micro Stack**
+
+- The Micro Stack pattern divides the infrastructure for a single service across multiple stacks.
+- Motivation: Different parts of a service’s infrastructure may change at different rates. Or they may have different characteristics which make them easier to manage separately. 
+- Consequences: Although smaller stacks are themselves simpler, handling the dependencies between them is more complicated.
+- Implementation: Adding a new microstack involves creating a new stack project. You need to draw boundaries in the right places between stacks to keep them appropriately sized and easy to manage. 
+
+
+
+## Chapter 6. Using Modules to Share Stack Code.
+
