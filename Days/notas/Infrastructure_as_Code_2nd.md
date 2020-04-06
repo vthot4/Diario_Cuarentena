@@ -69,7 +69,7 @@ ISBN: 9781098114671
 
 - La espiral del miedo de la automatización.
 
-  ![image-20200401224551321](C:\Users\vthot4\AppData\Roaming\Typora\typora-user-images\image-20200401224551321.png)
+  ![image-20200401224551321](./images/image-20200401224551321.png)
 
 - Principle: Ensure that you can repeat any process.
 

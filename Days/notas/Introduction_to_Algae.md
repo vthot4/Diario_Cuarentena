@@ -134,7 +134,7 @@
 
 **Seaweed Anatomy**
 
-![image-20200405013406219](D:\Diario_Cuarentena\Days\notas\images\Seaweed_Anatomy.png)
+![image-20200405013406219](./images/Seaweed_Anatomy.png)
 
 
 
