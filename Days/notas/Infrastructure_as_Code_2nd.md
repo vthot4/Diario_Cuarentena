@@ -186,3 +186,82 @@ The description of each pattern and antipattern follows a set format, with each 
 
 ## Chapter 6. Using Modules to Share Stack Code.
 
+- One of the principles of good software design is the DRY principle (“Don’t Repeat Yourself”). We feel that the only way to develop software reliably, and to make our developments easier to understand and maintain, is to follow what we call the DRY principle: 
+
+  > Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.
+
+- Most stack management tools support modules, or libraries, for this reason. A Stack Code Module is a piece of infrastructure code that you can use across multiple stack projects. You can version, test, and release the module code independently of the stack that uses it.
+
+  
+
+**Patterns and antipatterns for infrastructure modules**
+
+- Here are a few patterns and antipatterns that illustrate what works well and what doesn’t:
+
+  - A **Facade Module** provides a simplified interface for a resource provided by the stack tool language, or the underlying platform API.
+
+    - *Motivation.*  A facade module simplifies and standardizes a common use case for an infrastructure resource. The stack code the uses a facade module should be simpler and easier to read. 
+
+    - *Applicability.* Facade modules work best for simple use cases, usually involving a low-level infrastructure resource.
+
+    - *Consequences.* A facade module limits how you can use the underlying infrastructure resource. Doing this can be useful, simplifying options and standardizing around good quality implementations. However, it can also reduce flexibility.
+
+    - *Implementation.*  Implementing a facade module generally involves specifying an infrastructure resource with a number of hard-coded values, and a small number of values that are passed through from the code that uses the module
+
+    
+
+  - An Anti-pattern **Anemic Module** wraps the code for an infrastructure element but does not simplify it or add any particular value.
+
+    - *Motivation.* Sometimes people write this kind of module aiming to follow the DRY (Don’t Repeat Yourself) principle.
+
+    - *Applicability.* Nobody intentionally writes an anemic module.
+
+    - *Consequences.* Writing, using, and maintaining module code rather than directly using the constructs provided by your stack tool adds overhead. It makes your stack code more difficult to understand, especially for people who know the stack tool but are new to your codebase. It adds more code to maintain, usually with separate versioning and release.
+
+    - *Implementation.* If a module does more than pass parameters, but still presents too many parameters to code that uses it, you might consider splitting it into multiple modules.
+
+  
+
+  > **Coupling and cohesion with infrastructure modules.**
+  >
+  > When organizing code of any kind into different components, you need to consider dependencies. A stack project that uses a module depends on that module. The level of coupling describes how much a change to one part of the codebase affects other parts. If a stack is tightly coupled to a module, then changes to the module will probably require changing the stack code as well. This is a problem when multiple stacks are tightly coupled to a module, or when there is tight coupling across multiple modules and stacks. Tight coupling creates friction and risk for making changes to code. 
+  >
+  > You should aim to make your code loosely coupled. You can draw on lessons from software architecture to find ways to identify and avoid tight coupling.
+  >
+  > The level of cohesion of a component describes how well-focused it is. A module that does too much, like a spaghetti module (“Antipattern: Spaghetti Module”), has low cohesion. A module has high cohesion when it has a clear focus. A facade module (“Pattern: Facade Module”) can be highly cohesive around a low-level infrastructure resource, while a domain entity module (“Pattern: Domain Entity Module”) can be highly cohesive around a clear, logical entity.
+
+  
+
+  - A **Domain Entity Module** implements a high-level concept by combining multiple low-level infrastructure resources.
+
+    - *Motivation.* 
+
+    - *Applicability.*
+
+    - *Consequences.*
+
+    - *Implementation.*
+
+    
+
+  - A **Spaghetti Module** is configurable to the point where it creates significantly different results depending on the parameters given to it.
+
+    - *Motivation.*
+
+    - *Applicability.*
+
+    - *Consequences.*
+
+    - *Implementation.*
+
+    
+
+  - An **Obfuscation Layer** is composed of multiple modules. It is intended to hide or abstract details of the infrastructure from people writing stack code but instead makes the codebase as a whole harder to understand, maintain, and use.
+
+    - *Motivation.*
+
+    - *Applicability.*
+
+    - *Consequences.*
+
+    - *Implementation.*

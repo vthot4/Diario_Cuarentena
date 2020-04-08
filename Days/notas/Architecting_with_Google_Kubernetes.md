@@ -1,5 +1,9 @@
 # Architecting with Google Kubernetes Engine:Foundation
 
+​	**Fecha inicio:** 04/04/2020
+
+​	**Fecha Fin:** 06/04/2020
+
 ## Containers and Container Images.
 
 - Una forma eficiente de resolver el problema de dependencias es implementar abstracción a nivel de la aplicación y sus dependencias. Usted no debe virtualizar toda la máquina ni e sistema operativo completo sino solo el espacio de usuario. Este espacio es el código que reside en el kernel y que incluye las aplicaciones y sus dependencias. Esto es lo que significa crear contenedores. Son espacios aislados del usuario por código de aplicación en ejecución y son livianos porque no disponen de un sistema operativo completo y se programan o empaquetan en  el sistema subyacente el cual es muy eficiente.
@@ -147,4 +151,144 @@
 
 
 ## Kubernetes Architecture.
+
+- Para entender cómo funciona Kubernetes debe comprender dos conceptos relacionados.  El primero es el modelo de objeto de Kubernetes.  Cada elemento que Kubernetes administra  se representa con un objeto  y puede ver y modificar  estos objetos, atributos y estado.  El segundo es el principio de administración declarativa. Kubernetes espera que le diga  cuál es el estado que desea para los objetos administrados.
+
+- Un objeto de Kubernetes  se define como una entidad persistente  que representa el estado de lo que se ejecuta en un clúster  su estado deseado y su estado actual.
+
+- There are two elements to Kubernetes objects:
+
+  ![image-20200406203304771](./images/Kubernetes_objects.png)
+
+- Los pods son el pilar básico del modelo estándar de Kubernetes y son el objeto más pequeño de Kubernetes que se puede implementar.
+
+  ![image-20200406203729248](./images/Kubernetes_pods.png)
+
+
+
+## The Kubernetes Control Plane.
+
+- En el siguiente esquema de describen todos los elementos de kubernetes:
+
+![image-20200406205445021](./images/Kubernetes_Control_Plane.png)
+
+
+
+## Google Kubernetes Engine Concepts.
+
+- GKE administra todos los componentes del plano de control. Sigue exponiendo una dirección IP a la cual enviamos todas las solicitudes de la API de Kubernetes.  Pero GKE se hace responsable del aprovisionamiento y la administración  de toda la infraestructura de la instancia principal subyacente. También abstrae la necesidad de una instancia principal separada.
+- Use node pools to manage different kinds of nodes.
+
+![image-20200406210951222](./images/Kubernetes_Node_pool.png)
+
+
+
+## Kubernetes Object Management
+
+- Objects are defined in a YAML file. Ejemplo:
+
+  ```yaml
+  apiVersion: apps/v1
+  kind: Pod
+  metadata:
+  	name: nginx
+  	labels:
+  		app: nginx
+  spec:
+  	containers:
+  	- name: nginx
+  	  image: nginx:latest
+  ```
+
+  
+
+- Podemos añadir labels:
+
+  ```yaml
+  apiVersion: apps/v1
+  kind: Pod
+  metadata:
+  	name: nginx
+  	labels:
+  		app: nginx
+  		env: dev
+  		stack: frontend
+  spec:
+  	containers:
+  	- name: nginx
+  	  image: nginx:latest
+  ```
+
+  Podemos usar esas labels para tareas administrativas:
+
+  ```bash
+  $ kubectl get pods --selector=app=nginx
+  ```
+
+- Pods have a live cycle:
+
+  ![image-20200406212751715](./images/kubernetes_Pod_live_cycle.png)
+
+- Controller object types:
+
+  - Deployment.
+  - StatefulSet.
+  - DaemonSet.
+  - Job.
+
+- Deployments ensure that sets of pods are running.
+
+  ```yaml
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+  	name: nginx-deployment
+  	labels:
+  		app: nginx
+  spec:
+  	replicas: 3
+  	template:
+  		metadata:
+  			labels:
+  				app: nginx
+  		spec:
+  			containers:
+  			- name: nginx
+  	  		  image: nginx:latest
+  ```
+
+  
+
+- Kubernetes le permite abstraer un único clúster físico en varios clústeres conocidos como espacios de nombres. Los espacios de nombres permiten asignar nombres a los recursos como pods, implementaciones y controladores.
+
+  ![image-20200406222203078](./images/Kubernetes_Namespaces.png)
+
+
+
+## Kubernetes Controller Objects.
+
+- Advanced objects: Service. Service is a set of Pods and a policy to access them with.
+
+  Un servicio de Kubernetes es una dirección IP estática que representa un servicio  o una función en su infraestructura. Es una abstracción de red para un conjunto de pods que entrega ese servicio y oculta la naturaleza efímera de las direcciones IP de esos pods individuales.
+
+  ![image-20200406223010425](./images/Kubernetes_services.png)
+
+- Advanced objects: Volume.
+
+  - A directory that is accessible to all containers in a Pod.
+  - Requirements of the Volume can be specified using Pod specification.
+  - You must mount these Volumes specifically on each container within a Pod.
+  - Set up Volumes using external storage outside of your Pods to provide durable storage.
+
+- Services provide load-balanced access to specified Pods. There are three primary types of Services:
+
+  - ClusterIP: Exposes the service on an IP address that is only accessible from within this cluster. This is the default type.
+  - NodePort: Exposes the service on the IP address of each node in the cluster, at a specific port number.
+  - LoadBalancer: Exposes the service externally, using a load balancing service provided by a cloud provider.
+
+  In Google Kubernetes Engine, LoadBalancers give you access to a regional Network Load Balancing configuration by default. To get access to a global HTTP(S) Load Balancing configuration, you can use an Ingress object.
+
+  
+
+![image-20200406231727455](./images/Kubernetes_Certificado.png)
 
