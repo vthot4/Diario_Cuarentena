@@ -50,7 +50,7 @@
 
   ![image-20200407203339677](./hyperledger_SSI/Verificable_Credential.png)
 
-## What is Self-Sovereign Identity?
+#### # What is Self-Sovereign Identity?
 
 - SSI is the idea that you control your own data, you control when and how it is provided to others, and when it is shared, it is done so in a trusted way. With SSI, there is no central authority holding your data that passes it on to others upon request. And because of the underlying cryptography and blockchain technology, SSI means that you can present claims about your identity and others can verify it with cryptographic certainty.
 
@@ -117,7 +117,7 @@ Principios SSI:
 
 
 
-## What Are Decentralized Identifiers?
+####  What Are Decentralized Identifiers?
 
 - While verifiable credentials are an important component of SSI, a thing called a **decentralized identifier** (DID) is a key enabler for verifiable credentials. DIDs are a new type of identifier that is in the process of becoming a World Wide Web Consortium (W3C) [standard](https://www.w3.org/2019/did-wg/). (https://w3c.github.io/did-core/)
 - DIDs are a special kind of identifier that are created by their owner, independent of any central authority. Per the DID specification, a DID looks like the following and is similar to an HTTP address but used differently.
@@ -150,20 +150,20 @@ Principios SSI:
 
 
 
-## Zero-Knowledge Proof
+#### Zero-Knowledge Proof
 
 - A **zero-knowledge proof** ([ZKP](https://en.wikipedia.org/wiki/Zero-knowledge_proof)) is about proving attributes about an entity (a person, organization or thing) without exposing a correlatable identifier about that entity. Formally, it’s about presenting claims from verifiable credentials without exposing the key (and hence a unique identifier) of the proving party to the verifier. A ZKP still exposes the data asked (which could uniquely identify the prover), but does so in a way that proves the prover possesses the issued verifiable credential while preventing multiple verifiers from correlating the prover’s identity. 
 - There are other types of verifiable credentials that do not use a ZKP-based approach. In a non-ZKP proof, the holder/prover proves control over a DID to an issuer, and the issuer embeds that DID in the issued credential. Later, a verifier extracts the that DID from the credential and has the holder/prover prove they (still) control that DID. This proves the the credential was issued to the holder. Thus, a non-ZKP proof includes a public DID for the issuer (as with the Indy ZKP model) and a public DID for the holder/prover (unlike Indy). Usually in the non-ZKP model, the entire credential (with the embedded DIDs) is cryptographically signed by the issuer (proving the claims and the DIDs).
 
 
 
-##  Selective Disclosure
+#### Selective Disclosure
 
 - The Indy ZKP model enables some additional capabilities beyond most non-ZKP implementations. Specifically, that claims from verifiable credentials can be selectively disclosed, meaning that just some data elements from credentials, even across credentials can (and should be) provided in a single presentation. By providing them in a single presentation, the verifier knows that all of the credentials were issued to the same entity. In addition, a piece of cryptography magic that is part of ZKP (that we won’t detail here—but it’s fascinating) allows proving pieces of information without presenting the underlying data.
 
 
 
-##  Agents and Wallets
+#### Agents and Wallets
 
 - A third key component of SSI, along with verifiable credentials and DIDs, is the software that you use to process verifiable credentials and DIDs—what we’ve called your digital wallet.
 - Indy, Aries and Ursa use the term **agent** to mean the software that interacts with other entities (via DIDs and more, as we'll find out).
@@ -171,7 +171,7 @@ Principios SSI:
 
 
 
-##  Trust Over IP (ToIP)
+#### Trust Over IP (ToIP)
 
 - ToIP is a set of protocols being developed to enable a layer of trust on the Internet, protocols embodied in Indy, Aries and Ursa. It includes self-sovereign identity in that it covers identity, but goes beyond that to cover any type of authentic data. Authentic data in this context is data that is not necessarily a credential (attributes about an entity) but is managed as a verifiable credential and offers the same guarantees when proven.
 
@@ -185,3 +185,46 @@ Principios SSI:
   - How the agents know meaning of messages that form a protocol.
   - What the claims in credentials signify to the verifier.
   - By what authority an issuer is able to issue a credential.
+
+
+
+## Chapter 3: SSI Using Indy, Aries and Ursa.
+
+![image-20200408101700415](./Arc_Google_Cloud_Platform/images/Linux_Frameworks_tools.png)
+
+- [Hyperledger Indy](https://www.hyperledger.org/projects/hyperledger-indy) was Hyperledger’s first "identity-focused" blockchain framework, joining Hyperledger in 2017. The code for Indy was contributed by the Sovrin Foundation, an organization that we’ll cover a little later, after we’ve dug a bit deeper into Indy. Indy is a purpose-built distributed ledger for decentralized identity. Indy includes verifiable credentials based on zero-knowledge proof (ZKP) technology, decentralized identifiers, a software development kit (SDK) for building agents and an implementation of a public, permissioned distributed ledger.
+
+![image-20200408101917621](./Arc_Google_Cloud_Platform/images/Hyperledger_Indy_logo.png)
+
+- In 2018, the decision was made to migrate the ***\*indy-crypto\**** code repository out of Indy and into its own project: [Hyperledger Ursa](https://www.hyperledger.org/projects/ursa). Ursa packages the primitives in a way that can be consumed by Indy, Aries and any other software that needs a solid, vetted cryptographic base.
+
+  ![image-20200408102159263](D:\Diario_Cuarentena\Days\notas\Arc_Google_Cloud_Platform\images\Ursa_logo.png)
+
+-  [Hyperledger Aries](https://www.hyperledger.org/projects/aries) is a toolkit designed for initiatives and solutions focused on creating, transmitting, storing and using verifiable digital credentials. At its core are protocols enabling connectivity between agents using secure messaging to exchange information. Aries is all about peer-to-peer interactions between agents controlled by different entities—people, organizations and things. Using the standardized messaging channel, verifiable credentials can be exchanged based on DIDs rooted in different ledgers (based on Indy or other technology) using a range of verifiable credentials implementations.
+
+  ![image-20200408102425607](./Arc_Google_Cloud_Platform/images/Aries_logo.png)
+
+- Together, Indy, Aries and Ursa make the Hyperledger Identity "Stack."
+
+#### DEMO time.
+
+Link: https://github.com/cloudcompass/ToIPLabs/blob/master/docs/LFS172x/running-aries-browser-lab.md
+
+**Hyperledger Indy, Aries, Ursa Agent Demostration**
+
+LINK: https://github.com/cloudcompass/ToIPLabs/blob/master/src/indy-material/nodejs/README.md
+
+
+
+#### Hyperledger URSA
+
+- The Hyperledger Ursa project produces cryptographic packages that can be used to build higher level applications. The packages Ursa produces are used by Indy and Aries for all of the uses of cryptography by those projects, including:
+  - generation of public/private key pairs
+  - data encryption and decryption
+  - data signing and verifying
+  - data hash generation and verification
+  - zero-knowledge proof (ZKP) technology, including issuing ZKP credentials and generating and verifying ZKPs
+
+  These capabilities are used throughout Indy and Aries, as we will see when we get deeper into these projects.
+
+- 
