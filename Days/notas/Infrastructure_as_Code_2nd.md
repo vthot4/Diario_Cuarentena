@@ -234,34 +234,39 @@ The description of each pattern and antipattern follows a set format, with each 
 
   - A **Domain Entity Module** implements a high-level concept by combining multiple low-level infrastructure resources.
 
-    - *Motivation.* 
+    - *Motivation.* Infrastructure stack languages provide language constructs that map directly to resources and services provided by infrastructure platforms. Teams combine these low-level constructs into higher-level constructs to serve a particular purpose
 
-    - *Applicability.*
+    - *Applicability.* A domain entity module is useful for things that are fairly complex to implement, and that are used in pretty much the same way in multiple places in your system. Don’t create a domain entity module that you only use once. And don’t create one of these modules for multiple instances of the same thing, when each instance is significantly different. The first case is a one-shot module (“Antipattern: One-shot Module”), the second risks becoming a spaghetti module (“Antipattern: Spaghetti Module”).
 
-    - *Consequences.*
-
-    - *Implementation.*
+    - *Implementation.*The domain entity module pattern derives from Domain Driven Design (DDD)5, which creates a conceptual model for the business domain of a software system, and uses that to drive the design of the system itself. Infrastructure, especially one designed and built as software, can be seen as a domain in its own right. The domain is building, delivering, and running software.A particularly powerful approach is for an organization to use DDD to design the architecture for the business software, and then extend the domain to include the systems and services used for building and running that software.
 
     
 
-  - A **Spaghetti Module** is configurable to the point where it creates significantly different results depending on the parameters given to it.
+  - Antipattern **Spaghetti Module** is configurable to the point where it creates significantly different results depending on the parameters given to it. The implementation of the module is messy and difficult to understand, because it has too many moving parts.
 
-    - *Motivation.*
+    - *Motivation.* As with other antipatterns, people create a spaghetti module by accident, often over time.
 
-    - *Applicability.*
+    - *Consequences.* A module that does too many things is less maintainable than one with a tighter scope. The more things a module does, and the more variations there are in the infrastructure that it can create, the harder it is to change it without breaking something.
 
-    - *Consequences.*
-
-    - *Implementation.*
+    - *Implementation.* A spaghetti module’s code often contains conditionals, that apply different specifications in different situations.
 
     
 
-  - An **Obfuscation Layer** is composed of multiple modules. It is intended to hide or abstract details of the infrastructure from people writing stack code but instead makes the codebase as a whole harder to understand, maintain, and use.
+  - Antipattern **Obfuscation Layer** is composed of multiple modules. It is intended to hide or abstract details of the infrastructure from people writing stack code but instead makes the codebase as a whole harder to understand, maintain, and use.
 
-    - *Motivation.*
+    - *Motivation.* An obfuscation layer is usually intended to simplify or standardize implementation. A team might create a library of modules as an in-house model for building infrastructure. Sometimes the intention is for people to write stack code without needing to learn the stack tool itself. In other cases, the layer tries to abstract the specifics of the infrastructure platform so that code can be written once and used across multiple platforms.
+- *Consequences.* If your team uses a heavily customized model for infrastructure code, then it becomes a barrier to new people joining your team. Even someone who knows the stack tools you use has a steep learning curve to understand your special language. An in-house obfuscation layer tends to be inflexible, forcing people to either work around its limitations or spend time making changes to the obfuscation layer itself. Either way, people waste time creating and maintaining extra code.
+    
 
-    - *Applicability.*
+    
+- Antipattern **One-shot Module**  is only used once in a codebase, rather than being reused.
+  
+  - *Motivation*. People usually create one-shot modules as a way to organize the code in a project.
+    - *Applicability*. If a stack project includes enough code that it becomes difficult to navigate, you have a few options. Splitting the stack into modules is one approach. If the stack is conceptually doing too much, it might be better to divide it into multiple stacks, using an appropriate stack structural pattern. Otherwise, merely organizing code into different files and, if necessary, different folders, can make it easier to navigate and understand the codebase without the overhead of the other options.
+  - *Consequences*. Organizing the code into modules adds the overhead of declaring the module and passing parameters. You add even more complexity if you manage the module code separately, with separate versioning. This overhead is worthwhile when you share code across multiple stack projects. The benefits of code reuse make up for the added time and energy of maintaining a separate module. Paying that cost when you’re not using the benefit is a waste.
 
-    - *Consequences.*
 
-    - *Implementation.*
+
+## Chapter 7. Building Environments With Stacks
+
+- 
